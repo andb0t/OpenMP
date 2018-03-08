@@ -1,5 +1,7 @@
-CXX=clang-omp++
-CXX_FLAGS=-O3 -fopenmp -I.
+#CXX=clang-omp++
+CXX=g++
+#CXX_FLAGS=-O3 -fopenmp -I.
+CXX_FLAGS=-std=c++11 -fopenmp -I.
 
 all : sequential omp_parallel_pi omp_parallel_for_pi test_section
 
