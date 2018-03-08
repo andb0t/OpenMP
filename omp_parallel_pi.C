@@ -29,15 +29,22 @@ int main()
     double step = 1.0/(double) common::num_steps; //x-step
     int n_threads=1;
 
+    omp_set_num_threads(8);
     #pragma omp parallel
     {
         n_threads = omp_get_num_threads();
-
+        
         // Some changes have to be made: 
         // at the moment each thread performs the same operations, computing pi n_threads times
         // TIP: work on the for loop ranges using the thread IDs
     
-        for (unsigned long long i=1; i<=common::num_steps; i++) {
+        int thread_num = omp_get_thread_num();
+        long range = common::num_steps / n_threads;
+        long iMin = thread_num * range + 1;
+        long iMax = std::max( (thread_num + 1) * range, long(common::num_steps) ) + 1;
+        
+        //for (unsigned long i=1; i<=common::num_steps; i++) {
+        for (unsigned long i=iMin; i<=iMax; i++) {
             double x = (i - 0.5) * step; //computing the x value
             sum += 4.0 / (1.0 + x * x); //adding to the cumulus
         }
