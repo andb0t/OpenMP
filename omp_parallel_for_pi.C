@@ -39,7 +39,9 @@ int main()
         #pragma omp for
         for (unsigned long long i=1; i<=common::num_steps; i++) {
             double x = (i - 0.5) * step; //computing the x value
-            sum += 4.0 / (1.0 + x * x); //adding to the cumulus
+            double upd = 4.0 / (1.0 + x * x); //adding to the cumulus
+            #pragma omp atomic update
+            sum += upd;
         }
     }
 
